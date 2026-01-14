@@ -13,22 +13,26 @@ struct ContentView: View {
     var body: some View {
         NavigationStack {
             List(pokemon) { item in
-                HStack {
-                    AsyncImage(
-                        url: URL(
-                            string: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/\(item.id).png")) { image in image
-                                    .resizable()
-                                    .scaledToFit()
-                            } placeholder: {
-                                ProgressView()
-                            }
-                            .frame(width: 70, height: 70)
-                    
-                    Text(String(format: "%04d", item.id))
-                    Text("\(item.name.capitalized)")
-                    NavigationLink("", destination: Pokemon(pokemon: pokemon))
+                NavigationLink {
+                    PokemonView(pokemon: item)
+                } label: {
+                    HStack {
+                        AsyncImage(
+                            url: URL(
+                                string: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/\(item.id).png")) { image in image
+                                        .resizable()
+                                        .scaledToFit()
+                                } placeholder: {
+                                    ProgressView()
+                                }
+                                .frame(width: 70, height: 70)
+                        
+                        Text(String(format: "%04d", item.id))
+                        Text("\(item.name.capitalized)")
+                    }
                 }
             }
+            .navigationTitle("Pokédex")
         }
         .task {
             do {
